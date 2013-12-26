@@ -1,0 +1,13 @@
+eclipse.preferences.version=1
+encoding//src/remote.py=utf-8
+encoding//src/remote_appletv.py=utf-8
+encoding//src/remote_audio.py=utf-8
+encoding//src/remote_dummy.py=utf-8
+encoding//src/remote_irtoy.py=utf-8
+encoding//src/remote_sky.py=utf-8
+encoding//src/remote_tv.py=utf-8
+encoding//src/server_pi.py=utf-8
+encoding//src/templates/index.html=UTF-8
+encoding//src/templates/remote_control.html=UTF-8
+encoding//src/tvitem.py=utf-8
+encoding/<project>=UTF-8

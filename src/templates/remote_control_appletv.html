@@ -1,0 +1,35 @@
+<!doctype html>
+{% extends "remote_control_layout.html" %}
+{% block body %}
+<script type="text/javascript">
+function pressButton(button)
+{
+	blockUI()
+	$.post('/remotecontrol/appletv/button/'+button, function(){unblockUI()})
+}
+</script>
+
+<div class=page>
+	<h1><a href="/remotecontrol"><img src="/static/back.png"/></a>Apple TV-Clicker</h1>
+	<center>
+	<img src="/static/appletv.jpg" width="100"/>
+	<table>
+		<tr>
+			<td class="remote-control-button" onClick='pressButton("menu")'>Menü</td>
+			<td class="remote-control-button" onClick='pressButton("okay")'>Okay</td>
+		</tr>
+		<tr>
+			<td class="remote-control-button" onClick='pressButton("left")'>Links</td>
+			<td class="remote-control-button" onClick='pressButton("right")'>Rechts</td>
+			<td class="remote-control-button" onClick='pressButton("full_right")'>Ganz Rechts</td>
+		</tr>
+		<tr>
+			<td class="remote-control-button" onClick='pressButton("up")'>Oben</td>
+			<td class="remote-control-button" onClick='pressButton("down")'>Unten</td>
+			<td class="remote-control-button" onClick='pressButton("full_down")'>Ganz Unten</td>
+		</tr>
+	</table>
+	</center>
+</div>
+
+{% endblock %}

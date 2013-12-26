@@ -1,0 +1,41 @@
+<!doctype html>
+{% extends "remote_control_layout.html" %}
+{% block body %}
+<script type="text/javascript">
+function pressButton(button)
+{
+	blockUI()
+	$.post('/remotecontrol/sky/button/'+button, function(){unblockUI()})
+}
+</script>
+
+<div class=page>
+	<h1><a href="/remotecontrol"><img src="/static/back.png"/></a>Sky-Clicker</h1>
+	<center>
+	<img src="/static/sky_logo.png"/>
+	<table>
+		<tr>
+			<td class="remote-control-button" onClick='pressButton("standby")'>An/Aus</td>
+			<td class="remote-control-button" onClick='pressButton("up")'>P+1</td>
+			<td class="remote-control-button" onClick='pressButton("down")'>P-1</td>
+		</tr>
+		<tr>
+			<td class="remote-control-button" onClick='pressButton("number_one")'>1</td>
+			<td class="remote-control-button" onClick='pressButton("number_two")'>2</td>
+			<td class="remote-control-button" onClick='pressButton("number_three")'>3</td>
+		</tr>
+		<tr>
+			<td class="remote-control-button" onClick='pressButton("number_four")'>4</td>
+			<td class="remote-control-button" onClick='pressButton("number_five")'>5</td>
+			<td class="remote-control-button" onClick='pressButton("number_six")'>6</td>
+		</tr>
+		<tr>
+			<td class="remote-control-button" onClick='pressButton("number_seven")'>7</td>
+			<td class="remote-control-button" onClick='pressButton("number_eight")'>8</td>
+			<td class="remote-control-button" onClick='pressButton("number_nine")'>9</td>
+		</tr>
+	</table>
+	</center>
+</div>
+
+{% endblock %}

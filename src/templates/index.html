@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% extends "layout.html" %}
+{% block body %}
+	<script type="text/javascript">
+	    function switchChannel(channel)
+	    {
+	    	blockUI()
+	    	$.post('/channel/'+channel, function(){unblockUI()} )
+	    }
+	</script>
+	<div class="page">
+	    <h1>Clicker</h1>
+	    <a href="/remotecontrol"><img src="{{ url_for('static', filename='remote_controls.jpg')}}" width="70"></a>
+	    <a href="/tv?command=on"><img src="{{ url_for('static', filename='tv-on.jpg')}}" width="70"></a>
+	    <a href="/tv?command=off"><img src="{{ url_for('static', filename='tv-off.jpg')}}" width="70"></a>
+	    <a href="/pin"><img src="{{ url_for('static', filename='pin.jpg')}}" width="70"></a>
+	</div>
+	<div class="page">
+	    <a href="/">Jetzt</a>
+	    <a href="?tv-time=2015">20:15</a>
+	    <a href="?tv-time=2200">22:00</a>
+
+	    <table>
+	        <tbody>
+	        	{% for item in tvItemList %}
+	            <tr>
+	                <td>
+	                    <img src="{{item.previewImage}}" onclick="switchChannel(&quot;{{item.channel}}&quot;)">
+	                </td>
+	                <td>{{item.title}}</td>
+	            </tr>
+	            {% endfor %}
+	        </tbody>
+	    </table>
+	</div>
+	<!--
+	    {% for item in tvItemList %}
+	        {{item.channel}}
+	    {% endfor %}
+	                            -->
+{% endblock %}

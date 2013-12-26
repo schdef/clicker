@@ -1,0 +1,36 @@
+<!doctype html>
+{% extends "remote_control_layout.html" %}
+{% block body %}
+<script type="text/javascript">
+function pressButton(button)
+{
+	blockUI()
+	$.post('/remotecontrol/audio/button/'+button, function(){unblockUI()})
+}
+</script>
+
+<div class=page>
+	<h1><a href="/remotecontrol"><img src="/static/back.png"/></a>Audio-Clicker</h1>
+	<center>
+	<img src="/static/harmon.jpg" width="150"/>
+	<table>
+		<tr>
+			<td class="remote-control-button" onClick='pressButton("standby")'>An/Aus</td>
+			<td class="remote-control-button" onClick='pressButton("mute")'>Stumm</td>
+		</tr>
+		<tr>
+			<td class="remote-control-button" onClick='pressButton("optical")'>Optisch</td>
+			<td class="remote-control-button" onClick='pressButton("radio")'>Radio</td>
+			<td class="remote-control-button" onClick='pressButton("aux")'>Aux</td>
+		</tr>
+		<tr>
+			<td class="remote-control-button" onClick='pressButton("volumeUp")'>Lauter</td>
+			<td class="remote-control-button" onClick='pressButton("tripleVolumeUp")'>3x Lauter</td>
+			<td class="remote-control-button" onClick='pressButton("volumeDown")'>Leiser</td>
+			<td class="remote-control-button" onClick='pressButton("tripleVolumeDown")'>3x Leiser</td>
+		</tr>
+	</table>
+	</center>
+</div>
+
+{% endblock %}
