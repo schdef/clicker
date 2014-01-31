@@ -10,8 +10,14 @@ import urllib
 import tvitem
 import sys
 import operator
+from lirc.lirc import Lirc
+
+BASE_URL = ''
 
 app = Flask(__name__)
+
+# Initialise the Lirc config parser
+lircParse = Lirc('/etc/lirc/lircd.conf')
 
 def getText(node, key):
     alist=node.getElementsByTagName(key)
@@ -33,13 +39,13 @@ def enter_pin():
 @app.route("/tv/up")
 def tv_up():
     print "up"
-    remote_sky.up(False)
+    remote_sky.up()
     return redirect(url_for('index'))
 
 @app.route("/tv/down")
 def tv_down():
     print "down"
-    remote_sky.down(False)
+    remote_sky.down()
     return redirect(url_for('index'))
 
 @app.route("/")
@@ -75,7 +81,7 @@ def command_tv():
     command = request.args.get('command', '')
 
     if command == "on":
-        remote_sky.wakeup()
+        remote_sky.standby()
         remote_tv.standby()
         remote_audio.optical()
 
@@ -152,6 +158,34 @@ def remote_control_appletv():
 @app.route("/remotecontrol")
 def remote_control():
     return render_template('remote_control.html')
+
+@app.route("/rc")
+@app.route("/rc/<device>")
+def index_rc(device=None):
+    # Get the devices from the config file
+    devices = []
+    for dev in lircParse.devices():
+        d = {
+            'id': dev,
+            'name': dev,
+        }
+        devices.append(d)
+
+    return render_template('remote.html', devices=devices)
+
+
+@app.route("/rc/device/<device_id>")
+def device(device_id=None):
+    d = {'id':device_id}
+    return render_template('control.html', d=d)
+
+
+@app.route("/rc/device/<device_id>/clicked/<op>")
+def clicked(device_id=None, op=None):
+    # Send message to Lirc to control the IR
+    lircParse.send_once(device_id, op)
+
+    return ""
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80, debug=True)

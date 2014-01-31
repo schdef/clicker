@@ -7,12 +7,38 @@
 	    	blockUI()
 	    	$.post('/channel/'+channel, function(){unblockUI()} )
 	    }
+
+		function allDevicesOn() {
+	    	blockUI();
+	    	$.get('/tv?command=on', function(){unblockUI()} );
+	    }
+
+	    function allDevicesOff() {
+	    	blockUI();
+    		$.get('/tv?command=off', function(){unblockUI()} );
+		}
+
+	    function command() {
+			var command = document.getElementById("commandField").value;
+			var lowerCaseCommand = command.toLowerCase();
+			if(lowerCaseCommand.indexOf('alles einschalten') != -1) {
+				allDevicesOn();
+			} else if(lowerCaseCommand.indexOf('fernseher einschalten') != -1) {
+				alert(command);
+			}
+	    }
+
+
+
 	</script>
 	<div class="page">
 	    <h1>Clicker</h1>
+		<input id="commandField" type="text" style="font-size:25px;" x-webkit-speech onwebkitspeechchange="command();"/>
+		<input type="button" value="Go" onclick="command();"/>
+		<br/>
 	    <a href="/remotecontrol"><img src="{{ url_for('static', filename='remote_controls.jpg')}}" width="70"></a>
-	    <a href="/tv?command=on"><img src="{{ url_for('static', filename='tv-on.jpg')}}" width="70"></a>
-	    <a href="/tv?command=off"><img src="{{ url_for('static', filename='tv-off.jpg')}}" width="70"></a>
+	    <img src="{{ url_for('static', filename='tv-on.jpg')}}" width="70" onClick="allDevicesOn()">
+	    <img src="{{ url_for('static', filename='tv-off.jpg')}}" width="70" onClick="allDevicesOff()">
 	    <a href="/pin"><img src="{{ url_for('static', filename='pin.jpg')}}" width="70"></a>
 	</div>
 	<div class="page">
