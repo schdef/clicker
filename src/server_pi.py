@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, request, redirect, url_for,  \
      render_template
+import remote
 import remote_tv
 import remote_sky
 import remote_audio
@@ -10,14 +11,10 @@ import urllib
 import tvitem
 import sys
 import operator
-from lirc.lirc import Lirc
 
 BASE_URL = ''
 
 app = Flask(__name__)
-
-# Initialise the Lirc config parser
-lircParse = Lirc('/etc/lirc/lircd.conf')
 
 def getText(node, key):
     alist=node.getElementsByTagName(key)
@@ -111,11 +108,6 @@ def command_radio():
 
 @app.route("/channel/<channel>", methods = ["POST"])
 def channelSwitch(channel):
-    #channel = request.form['channel']
-    print "switch was called for channel"
-    print channel
-    sys.stdout.flush()
-    #time.sleep(1)
     remote_sky.switch(channel)
     return channel
 
@@ -164,7 +156,7 @@ def remote_control():
 def index_rc(device=None):
     # Get the devices from the config file
     devices = []
-    for dev in lircParse.devices():
+    for dev in remote.devices():
         d = {
             'id': dev,
             'name': dev,
@@ -183,7 +175,7 @@ def device(device_id=None):
 @app.route("/rc/device/<device_id>/clicked/<op>")
 def clicked(device_id=None, op=None):
     # Send message to Lirc to control the IR
-    lircParse.send_once(device_id, op)
+    remote.lircParse.send_once(device_id, op)
 
     return ""
 

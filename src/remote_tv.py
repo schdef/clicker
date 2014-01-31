@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-from lirc.lirc import Lirc
-
-lircParse = Lirc('/etc/lirc/lircd.conf')
+import remote
 
 def command(irCode):
-    lircParse.send_once('TV', irCode)
+    remote.send_once('TV', irCode)
 
 def standby():
     command('KEY_POWER')

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% extends "base.html" %}
 {% block body %}
 <div data-role="page" data-title="Register" id="events">
@@ -7,11 +8,11 @@
     });
     </script-->
     <div data-role="header" data-theme="b">
-        <h1>Pi Remote Control</h1>
+        <h1>Fernbedienung</h1>
     </div>
     <div data-role="content">
         <ul id="d-list" data-role="listview" data-inset="true" data-filter="true" data-dividertheme="a">
-            <li data-role="list-divider">Devices</li>
+            <li data-role="list-divider">Geräte</li>
             {% for d in devices %}
                 <li id="device{{ d['id'] }}"><a href="rc/device/{{ d.id }}" data-transition="flip" >{{ d['name'] }}</a></li>
             {% endfor %}

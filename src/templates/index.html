@@ -36,7 +36,7 @@
 		<input id="commandField" type="text" style="font-size:25px;" x-webkit-speech onwebkitspeechchange="command();"/>
 		<input type="button" value="Go" onclick="command();"/>
 		<br/>
-	    <a href="/remotecontrol"><img src="{{ url_for('static', filename='remote_controls.jpg')}}" width="70"></a>
+	    <a href="/rc"><img src="{{ url_for('static', filename='remote_controls.jpg')}}" width="70"></a>
 	    <img src="{{ url_for('static', filename='tv-on.jpg')}}" width="70" onClick="allDevicesOn()">
 	    <img src="{{ url_for('static', filename='tv-off.jpg')}}" width="70" onClick="allDevicesOff()">
 	    <a href="/pin"><img src="{{ url_for('static', filename='pin.jpg')}}" width="70"></a>

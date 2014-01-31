@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-from lirc.lirc import Lirc
-
-lircParse = Lirc('/etc/lirc/lircd.conf')
+import remote as remote
 
 def command(irCode):
-    lircParse.send_once('APPLE-TV', irCode)
+    remote.send_once('APPLE-TV', irCode)
 
 def standby():
     pass
