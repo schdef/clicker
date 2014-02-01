@@ -36,10 +36,14 @@
 		<input id="commandField" type="text" style="font-size:25px;" x-webkit-speech onwebkitspeechchange="command();"/>
 		<input type="button" value="Go" onclick="command();"/>
 		<br/>
-	    <a href="/rc"><img src="{{ url_for('static', filename='remote_controls.jpg')}}" width="70"></a>
 	    <img src="{{ url_for('static', filename='tv-on.jpg')}}" width="70" onClick="allDevicesOn()">
 	    <img src="{{ url_for('static', filename='tv-off.jpg')}}" width="70" onClick="allDevicesOff()">
 	    <a href="/pin"><img src="{{ url_for('static', filename='pin.jpg')}}" width="70"></a>
+	    <br/>
+	    <a href="/rc/device/TV"><img src="{{ url_for('static', filename='samsung.jpg')}}" width="70"></a>
+	    <a href="/rc/device/SKY"><img src="{{ url_for('static', filename='sky_logo.png')}}" width="70"></a>
+	    <a href="/rc/device/HARMON-KARDON"><img src="{{ url_for('static', filename='harmon.jpg')}}" width="70"></a>
+	    <a href="/rc/device/APPLE-TV"><img src="{{ url_for('static', filename='appletv.jpg')}}" width="70"></a>
 	</div>
 	<div class="page">
 	    <a href="/">Jetzt</a>
