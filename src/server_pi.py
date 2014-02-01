@@ -175,9 +175,12 @@ def device(device_id=None):
 @app.route("/rc/device/<device_id>/clicked/<op>")
 def clicked(device_id=None, op=None):
     # Send message to Lirc to control the IR
-    remote.lircParse.send_once(device_id, op)
+    remote.send_once(device_id, op)
 
     return ""
 
 if __name__ == "__main__":
+    import logging
+    logging.basicConfig(filename='debug.log',level=logging.DEBUG)
+
     app.run(host='0.0.0.0', port=80, debug=True)
