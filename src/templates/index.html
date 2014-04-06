@@ -28,8 +28,10 @@
 			}
 	    }
 
-
-
+	    function switchDevice(device, value) {
+	    	blockUI();
+    		$.get('http://pi:85/api/device/'+device+'/turn'+value, function(){unblockUI()} );
+	    }
 	</script>
 	<div class="page">
 	    <h1>Clicker</h1>
@@ -44,7 +46,16 @@
 	    <a href="/rc/device/SKY"><img src="{{ url_for('static', filename='sky_logo.png')}}" width="70"></a>
 	    <a href="/rc/device/HARMON-KARDON"><img src="{{ url_for('static', filename='harmon.jpg')}}" width="70"></a>
 	    <a href="/rc/device/APPLE-TV"><img src="{{ url_for('static', filename='appletv.jpg')}}" width="70"></a>
+	    <br/>
+	    <img src="{{ url_for('static', filename='ikea-stehlampe.jpg')}}" width="70" onClick="switchDevice('pilight-Wohnzimmer-Stehlampe', 'On')"/>
+	    <img src="{{ url_for('static', filename='ikea-stehlampe.jpg')}}" width="70" onClick="switchDevice('pilight-Wohnzimmer-Stehlampe', 'Off')"/>
+	    <img src="{{ url_for('static', filename='ikea-regal.jpg')}}" width="70" onClick="switchDevice('pilight-Wohnzimmer-Regal', 'On')"/>
+	    <img src="{{ url_for('static', filename='ikea-regal.jpg')}}" width="70" onClick="switchDevice('pilight-Wohnzimmer-Regal', 'Off')"/>
+	    <img src="{{ url_for('static', filename='energiesparen.jpg')}}" width="70" onClick="switchDevice('pilight-Wohnzimmer-Entertainment', 'On')"/>
+	    <img src="{{ url_for('static', filename='energiesparen.jpg')}}" width="70" onClick="switchDevice('pilight-Wohnzimmer-Entertainment', 'Off')"/>
+	    <!--<iframe src="http://192.168.178.43:85" height="300" width="550"></iframe>-->
 	</div>
+
 	<div class="page">
 	    <a href="/">Jetzt</a>
 	    <a href="?tv-time=2015">20:15</a>
