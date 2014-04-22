@@ -11,6 +11,8 @@ import urllib
 import tvitem
 import sys
 import operator
+import remote_clock
+import WashingMachine
 
 BASE_URL = ''
 
@@ -178,6 +180,17 @@ def clicked(device_id=None, op=None):
     remote.send_once(device_id, op)
 
     return ""
+
+@app.route("/clock")
+def clock():
+    command = request.args.get('usr_time', '')
+    remote_clock.setTime(command)
+    return render_template('clock.html')
+
+@app.route("/wasch")
+def washing():
+    return render_template('washing.html', washingStatus=WashingMachine.getState())
+
 
 if __name__ == "__main__":
     import logging

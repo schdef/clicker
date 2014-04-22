@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends "layout.html" %}
+{% block body %}
+	<script type="text/javascript">
+	    function setClock() {
+	    	var value = document.getElementById("usr_time").value;
+	    	blockUI();
+    		$.get('/clock?time='+value, function(){unblockUI()} );
+	    }
+	</script>
+	<div class="page">
+	    <h1>Uhr</h1>
+	    <form>
+			<input type="number" name="usr_time" min="1" max="99">
+			<input type="submit" onclick="setClock();">
+		</form>
+	</div>
+{% endblock %}
