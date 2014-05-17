@@ -1,68 +1,68 @@
 # -*- coding: utf-8 -*-
 import time
-import RPi.GPIO as GPIO
-import WashingMachineStates as wms
-from pickle import GET
+import SwitchState
+from datetime import datetime
+
+from WashingMachineStates import WashingMachineState
+import GPIOHelper
 
 switchPin = 18
-washingMachineState = wms.WashingMachineState.START
+washingMachineState = WashingMachineState.START
 lastSwitchEvent = time.time()
-switchState = wms.SwitchState.UNKNOWN
+switchState = SwitchState.SwitchState.UNKNOWN
+delayInSeconds = 5
 
 def setState(state):
     global washingMachineState
+    global lastSwitchEvent
+    global switchState
+    #print "setState"
     washingMachineState = state
-
+    lastSwitchEvent = time.time()
+    switchState = SwitchState.SwitchState.UNKNOWN
 
 def nextState():
     global washingMachineState
-    if(washingMachineState == wms.WashingMachineState.START):
-        washingMachineState = wms.WashingMachineState.IN_PROGRESS
-    elif(washingMachineState == wms.WashingMachineState.IN_PROGRESS):
-        washingMachineState = wms.WashingMachineState.FINISHING
-    elif(washingMachineState == wms.WashingMachineState.FINISHING):
-        washingMachineState = wms.WashingMachineState.END
+    if(washingMachineState == WashingMachineState.START):
+        washingMachineState = WashingMachineState.IN_PROGRESS
+    elif(washingMachineState == WashingMachineState.IN_PROGRESS):
+        washingMachineState = WashingMachineState.FINISHING
+    elif(washingMachineState == WashingMachineState.FINISHING):
+        washingMachineState = WashingMachineState.END
 
 
 def getState():
+    #d = datetime.now()
+    #print str("getState start " + d.strftime('%H:%M:%S'))
     global washingMachineState
     global lastSwitchEvent
-    if(washingMachineState == wms.WashingMachineState.START):
+    result=WashingMachineState.START
+    if(washingMachineState == WashingMachineState.START):
+        print "START"
         state = getSwitchState()
-        if(state == wms.SwitchState.OFF):
+        if(state == SwitchState.SwitchState.OFF and ((lastSwitchEvent + delayInSeconds) < time.time())):
             nextState()
-            return getState()
-        else:
-            return "Gerade angefangen"
-    elif(washingMachineState == wms.WashingMachineState.IN_PROGRESS):
+        result=washingMachineState
+    elif(washingMachineState == WashingMachineState.IN_PROGRESS):
+        print "IN_PROGRESS"
         state = getSwitchState()
-        if(state == wms.SwitchState.ON):
+        if(state == SwitchState.SwitchState.ON):
             lastSwitchEvent = time.time()
             nextState()
-            return getState()
-        else:
-            return "Mittendrin"
-    elif(washingMachineState == wms.WashingMachineState.FINISHING):
-        if(time.time() > (lastSwitchEvent + 5)):
+        result=washingMachineState
+    elif(washingMachineState == WashingMachineState.FINISHING):
+        print "FINISHING"
+        if(time.time() > (lastSwitchEvent + delayInSeconds)):
             nextState()
-            return getState()
-        else:
-            return "Fast fertig"
-    elif(washingMachineState == wms.WashingMachineState.END):
-        return "Fertig"
+        result=washingMachineState
+    elif(washingMachineState == WashingMachineState.END):
+        print "END"
+        result=washingMachineState
     else:
-        return "Unbekannt"
-
+        result=WashingMachineState.UNKNOWN
+    #d = datetime.now()
+    #print str("getState end " + d.strftime('%H:%M:%S'))
+    return result
 
 def getSwitchState():
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(switchPin, GPIO.IN)
-    global lastSwitchEvent
-    global switchState
-
-    lastSwitchEvent = time.time()
-    if(GPIO.input(switchPin) == GPIO.LOW):
-        switchState = wms.SwitchState.ON
-    else:
-        switchState = wms.SwitchState.OFF
-    return wms.SwitchState.OFF
+    return GPIOHelper.getSwitchState(switchPin)

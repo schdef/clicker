@@ -6,7 +6,3 @@ class WashingMachineState:
     FINISHING = 30
     END = 40
 
-class SwitchState:
-    UNKNOWN = 0
-    ON = 10
-    OFF = 20

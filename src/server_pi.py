@@ -13,6 +13,8 @@ import sys
 import operator
 import remote_clock
 import WashingMachine
+from datetime import datetime
+from WashingMachineStates import WashingMachineState
 
 BASE_URL = ''
 
@@ -189,7 +191,27 @@ def clock():
 
 @app.route("/wasch")
 def washing():
-    return render_template('washing.html', washingStatus=WashingMachine.getState())
+    d = datetime.now()
+    print str("/washing start " + d.strftime('%H:%M:%S'))
+    resetParam = request.query_string
+    #print resetParam
+    if(resetParam == 'reset'):
+        #print "reset wasch"
+        WashingMachine.setState(WashingMachineState.START)
+
+    washingMachineState = WashingMachine.getState()
+    if(washingMachineState == WashingMachineState.START):
+        washingStatus = "Start"
+    elif(washingMachineState == WashingMachineState.IN_PROGRESS):
+        washingStatus = "Mittendrin"
+    elif(washingMachineState == WashingMachineState.FINISHING):
+        washingStatus = "Kurz vor Ende"
+    elif(washingMachineState == WashingMachineState.END):
+        washingStatus = "Fertig"
+
+    d = datetime.now()
+    print str("/washing end " + d.strftime('%H:%M:%S'))
+    return render_template('washing.html', washingStatus=washingStatus)
 
 
 if __name__ == "__main__":
